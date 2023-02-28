@@ -1,0 +1,24 @@
+function getRforX(x,Delta)
+ R = []
+ for d in Delta
+  if someCondition(x,d)
+   R.append(d)
+ return R
+
+function v(x,y)
+ return //some number
+
+function PR(p,R,Delta)
+ total = 1
+ for r in R
+  for d in Delta
+   total *= (1 - (1 - p) ** v(r.x,r.y)) * ((1 - p) ** v(d.x,d.y))
+ return total
+
+function getScores(p,Delta)
+ scores = {}
+ for d in Delta
+  R = getRforX(d,Delta)
+  scores[d] = PR(p,R,Delta)
+ return scores.sort()
+  	

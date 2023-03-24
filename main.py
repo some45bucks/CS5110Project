@@ -1,10 +1,7 @@
 import sys
-
-def main():
-    if len(sys.argv) >= 2:
-        DeltaLength = int(sys.argv[1])
-    else:
-        DeltaLength = 5
+from simulation import Simulation 
 
 if __name__ == "__main__":
-    main()
+    graph = None
+    simulation = Simulation(graph)
+    

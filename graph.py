@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+from consumer import Consumer
 
 class Graph:
     def __init__(self, num_producers, num_consumers, connectivity_prob):
@@ -7,14 +8,20 @@ class Graph:
         self.num_producers = num_producers
         self.num_consumers = num_consumers
         self.connectivity_prob = connectivity_prob
+        self.producers = []
+        self.consumers = []
         
         # Add producer nodes
         for i in range(num_producers):
-            self.graph.add_node(f"Producer_{i}")
+            newProducer = Consumer(0,0,0,[])
+            self.graph.add_node(newProducer)
+            self.producers.append(newProducer)
             
         # Add consumer nodes
         for i in range(num_consumers):
-            self.graph.add_node(f"Consumer_{i}")
+            newConsumer = Consumer(0,0,0,[])
+            self.graph.add_node(newConsumer)
+            self.consumers.append(newConsumer)
             
         # Connect every consumer to every producer with a random whole number weight between 0 and 10
         for consumer in range(num_consumers):
@@ -51,3 +58,9 @@ class Graph:
             else:
                 print(f"{edge[0]} -- {edge[1]} : {weight}")
 
+    def consumerAwareness(self,consumer):
+        awareness = []
+        
+        
+        
+        return awareness

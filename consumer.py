@@ -2,15 +2,13 @@ class Consumer:
     curr_funds = 0
     prefs = []
     risk_tolerance = 0.0
-    awareness = []
-    neighbors = []
+    id = 0
 
     # No awareness on initialization, can change if we want consumers to start with some pre-knowledge
-    def __init__(self, funds, preferences, risk_tolerance, neighbors):
+    def __init__(self, funds, preferences, risk_tolerance):
         self.curr_funds = funds
         self.prefs = preferences
         self.risk_tolerance = risk_tolerance
-        self.neighbors = neighbors
 
     def speculativeValue(self, genre, campaign_goal, curr_campaign_funds):
         # TODO: calculate a speculative value for the given parameters

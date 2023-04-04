@@ -11,16 +11,16 @@ class Graph:
         self.connectivity_prob = connectivity_prob
         self.producers = []
         self.consumers = []
-        
+        #TODO GENRES!
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(0,0,0,0)
+            newProducer = Producer(i,0,random.uniform(0,1)*1000,None)
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
         # Add consumer nodes
         for i in range(num_consumers):
-            newConsumer = Consumer(0,[],0)
+            newConsumer = Consumer(i,random.uniform(0,1)*100,None,random.uniform(0,1))
             self.graph.add_node(newConsumer)
             self.consumers.append(newConsumer)
             
@@ -29,15 +29,24 @@ class Graph:
             for producer in range(num_producers):
                 weight = 0
                 self.graph.add_edge(f"Consumer_{consumer}", f"Producer_{producer}", weight=weight)
+                self.consumers[consumer].producers[self.producers[producer]] = weight
                      
         # Connect consumers to other consumers with a probability of connectivity_prob with a weight of 0
         for i in range(num_consumers):
             for j in range(i+1, num_consumers):
                 if random.random() < connectivity_prob:
+                    weight = random.uniform(0,1)
+                else:
                     weight = 0
-                    self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
+                
+                self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
+                self.consumers[i].neighbors[self.consumers[j]] = weight
+                self.consumers[j].neighbors[self.consumers[i]] = weight
+                    
 
-
+    def get_edge_weight(self, node1, node2):
+        return self.graph[node1][node2]['weight']
+    
     # Takes two nodes and updates the edge weight if there is one
     def update_edge_weight(self, node1, node2, weight):
         """
@@ -47,8 +56,6 @@ class Graph:
             self.graph[node1][node2]['weight'] = weight
         else:
             print(f"Edge ({node1}, {node2}) does not exist in the graph.")
-    
-
     
     def print_graph(self):
         """

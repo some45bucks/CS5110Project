@@ -1,18 +1,25 @@
+import random
+
 class Consumer:
     curr_funds = 0
-    prefs = []
-    risk_tolerance = 0.0
+    prefs = {}
+    risk_tolerance = 0.0001
     id = 0
+    neighbors = {}
+    producers = {}
 
     # No awareness on initialization, can change if we want consumers to start with some pre-knowledge
-    def __init__(self, funds, preferences, risk_tolerance):
+    def __init__(self,id, funds, preferences, risk_tolerance):
+        self.id = id
         self.curr_funds = funds
         self.prefs = preferences
         self.risk_tolerance = risk_tolerance
 
     def speculativeValue(self, genre, campaign_goal, curr_campaign_funds):
-        # TODO: calculate a speculative value for the given parameters
-        pass
+        percentageDone = curr_campaign_funds/campaign_goal
+        genrePrefrence = self.prefs[genre]
+
+        return ((percentageDone+1)/self.risk_tolerance)*genrePrefrence
 
     # Nice wrapper for other speculativeValue()
     def speculativeValue(self, producer):
@@ -20,12 +27,7 @@ class Consumer:
         return val
 
     def modifyPreference(self, genre, modifier):
-        # TODO: modify preference by the modifier amount
-        pass
-
-    def notifyNeighbors(self, producer):
-        # TODO:
-        pass
+        self.prefs[genre] += modifier            
 
     def buy(self, producer):
         # TODO: check if already contributed

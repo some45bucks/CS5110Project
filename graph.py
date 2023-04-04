@@ -1,6 +1,7 @@
 import networkx as nx
 import random
 from consumer import Consumer
+from producer import Producer
 
 class Graph:
     def __init__(self, num_producers, num_consumers, connectivity_prob):
@@ -13,13 +14,13 @@ class Graph:
         
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Consumer(0,0,0,[])
+            newProducer = Producer(0,0,0,0)
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
         # Add consumer nodes
         for i in range(num_consumers):
-            newConsumer = Consumer(0,0,0,[])
+            newConsumer = Consumer(0,[],0)
             self.graph.add_node(newConsumer)
             self.consumers.append(newConsumer)
             
@@ -60,7 +61,5 @@ class Graph:
 
     def consumerAwareness(self,consumer):
         awareness = []
-        
-        
-        
+
         return awareness

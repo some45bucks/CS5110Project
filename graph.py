@@ -24,13 +24,13 @@ class Graph:
             self.graph.add_node(newConsumer)
             self.consumers.append(newConsumer)
             
-        # Connect every consumer to every producer with a random whole number weight between 0 and 10
+        # Connect every consumer to every producer with a weight between 0
         for consumer in range(num_consumers):
             for producer in range(num_producers):
                 weight = 0
                 self.graph.add_edge(f"Consumer_{consumer}", f"Producer_{producer}", weight=weight)
                      
-        # Connect consumers to other consumers with a probability of connectivity_prob
+        # Connect consumers to other consumers with a probability of connectivity_prob with a weight of 0
         for i in range(num_consumers):
             for j in range(i+1, num_consumers):
                 if random.random() < connectivity_prob:
@@ -38,6 +38,7 @@ class Graph:
                     self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight)
 
 
+    # Takes two nodes and updates the edge weight if there is one
     def update_edge_weight(self, node1, node2, weight):
         """
         Updates the weight of the edge between node1 and node2 to the given weight.

@@ -35,7 +35,7 @@ class Graph:
             for j in range(i+1, num_consumers):
                 if random.random() < connectivity_prob:
                     weight = 0
-                    self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight)
+                    self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
 
 
     # Takes two nodes and updates the edge weight if there is one

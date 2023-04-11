@@ -38,7 +38,7 @@ class Simulation:
             amount = producer.advertise()
             for consumer in self.connectionGraph.consumers:
                 weight = self.connectionGraph.get_edge_weight(consumer,producer)
-                producer.modifyPreference(producer,consumer,producer.genre,2/(1+math.e**(-weight*amount)) + 1)
+                consumer.modifyPreference(producer.genre,2/(1+math.e**(-weight*amount)) + 1)
        
     def upKeep(self):
         if self.steps < self.currentStep:

@@ -34,3 +34,6 @@ class Consumer:
         contrib = self.speculativeValue(producer)
         producer.addContribution(contrib)
         self.curr_funds -= contrib
+        
+    def getId(self):
+        return f"Consumer_{self.id}"

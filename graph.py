@@ -42,10 +42,12 @@ class Graph:
                 self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
                 self.consumers[i].neighbors[self.consumers[j]] = weight
                 self.consumers[j].neighbors[self.consumers[i]] = weight
+                print(weight)
+                print(self.get_edge_weight(self.consumers[i],self.consumers[j]))
                     
 
     def get_edge_weight(self, node1, node2):
-        return self.graph[node1][node2]['weight']
+        return self.graph[node1.getId()][node2.getId()]['weight']
     
     # Takes two nodes and updates the edge weight if there is one
     def update_edge_weight(self, node1, node2, weight):
@@ -53,7 +55,7 @@ class Graph:
         Updates the weight of the edge between node1 and node2 to the given weight.
         """
         if self.graph.has_edge(node1, node2):
-            self.graph[node1][node2]['weight'] = weight
+            self.graph[node1.getId()][node2.getId()]['weight'] = weight
         else:
             print(f"Edge ({node1}, {node2}) does not exist in the graph.")
     

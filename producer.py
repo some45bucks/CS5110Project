@@ -20,5 +20,8 @@ class Producer:
         self.total_ad_spending += spendAmount
         
         return spendAmount
+    
+    def getId(self):
+        return f"Producer_{self.id}"
         
         

@@ -1,7 +1,10 @@
 from dataVisualize import Visualizer 
+import math
 
 class Simulation:
-    def __init__(self, connectionGraph):
+    def __init__(self, connectionGraph,steps):
+        self.steps = steps
+        self.currentStep = 0
         self.connectionGraph = connectionGraph
         self.totalSteps = 0
         self.visualizer = Visualizer(self.connectionGraph.consumers, self.connectionGraph.producers)
@@ -32,11 +35,17 @@ class Simulation:
     
     def producerAdvertise(self):
         for producer in self.connectionGraph.producers:
-            producer.advertise()
-    
-    #TODO finish this        
+            amount = producer.advertise()
+            for consumer in self.connectionGraph.consumers:
+                weight = self.connectionGraph.get_edge_weight(consumer,producer)
+                producer.modifyPreference(producer,consumer,producer.genre,2/(1+math.e**(-weight*amount)) + 1)
+       
     def upKeep(self):
-        self.visualizer.visualize()
-        return True
+        if self.steps < self.currentStep:
+            self.visualizer.visualize()
+            return True
+        else:
+            self.currentStep+=1
+            return False
         
         

@@ -14,7 +14,7 @@ class Graph:
         #TODO GENRES!
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(i,0,random.uniform(0,1)*1000,None)
+            newProducer = Producer(i,random.uniform(0,1)*100,random.uniform(0,1)*1000,None)
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
@@ -27,7 +27,7 @@ class Graph:
         # Connect every consumer to every producer with a weight between 0
         for consumer in range(num_consumers):
             for producer in range(num_producers):
-                weight = 0
+                weight = random.uniform(0,1)
                 self.graph.add_edge(f"Consumer_{consumer}", f"Producer_{producer}", weight=weight)
                 self.consumers[consumer].producers[self.producers[producer]] = weight
                      

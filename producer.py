@@ -13,5 +13,12 @@ class Producer:
         self.genre = genre
 
     def advertise(self):
-        # TODO: return a value of ad expenditure for this round
-        pass
+        spendAmount = self.curr_funds * .1
+        
+        self.curr_funds -= spendAmount
+        
+        self.total_ad_spending += spendAmount
+        
+        return spendAmount
+        
+        

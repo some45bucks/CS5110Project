@@ -17,8 +17,7 @@ class Visualizer:
             
     def visualize(self):
         for consumer_id, data in self.consumer_data.items():
-            plt.plot(data['current_funds'], label=f'Consumer {consumer_id}')
+            plt.plot(data['current_funds'],linestyle='dashed')
         for producer_id, data in self.producer_data.items():
-            plt.plot(data['current_funds'], label=f'Producer {producer_id}')
-        plt.legend()
+            plt.plot(data['current_funds'])
         plt.show()

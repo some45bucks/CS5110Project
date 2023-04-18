@@ -12,7 +12,9 @@ class Producer:
         self.campaign_goal = goal
         self.genre = genre
         self.contributors = []
-
+        
+    #some sort of market measure
+    #update on advertise
     def advertise(self):
         if self.campaign_goal <= self.curr_funds:
             spendAmount = 0
@@ -24,6 +26,7 @@ class Producer:
         self.total_ad_spending += spendAmount
         
         return spendAmount
+    
     
     def addContribution(self,contrib):
         self.curr_funds += contrib

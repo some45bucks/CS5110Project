@@ -21,7 +21,9 @@ class Simulation:
                 val = consumer.speculativeValue(producer)
                 if val > 0:
                     consumer.buy(producer)
-                    
+    
+    #make prefrences play a role in consumer updates
+    #some more sophisticated udate method                
     def consumerUpdate(self):
         for producer in self.connectionGraph.producers:
                 for consumer in self.connectionGraph.consumers:
@@ -31,7 +33,7 @@ class Simulation:
                             newWeight = producerConsumerWeight*self.connectionGraph.get_edge_weight(n,consumer)
                             self.connectionGraph.update_edge_weight(producer, n, newWeight)
                 
-    
+    #producer advertise needs to affect awarenss and prefrence
     def producerAdvertise(self):
         for producer in self.connectionGraph.producers:
             amount = producer.advertise()

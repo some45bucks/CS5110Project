@@ -13,7 +13,6 @@ if __name__ == "__main__":
     graph = Graph(args.n, args.m, args.p)
 
     simulation = Simulation(graph,int(args.s))
-    
 
     done = False
     while not done:

@@ -4,7 +4,6 @@ class Producer:
     total_ad_spending = 0
     genre = None
     id = 0
-    
 
     def __init__(self, id, funds, goal, genre):
         self.id = id
@@ -20,18 +19,14 @@ class Producer:
             spendAmount = 0
         else:
             spendAmount = self.curr_funds *.05
-        
         self.curr_funds -= spendAmount
-        
         self.total_ad_spending += spendAmount
-        
         return spendAmount
     
     
     def addContribution(self,contrib):
+        # TODO: add awareness of the contributing consumer maybe?
         self.curr_funds += contrib
     
     def getId(self):
         return f"Producer_{self.id}"
-        
-        

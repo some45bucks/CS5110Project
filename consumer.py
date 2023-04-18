@@ -18,12 +18,13 @@ class Consumer:
         self.prefs = preferences
 
     def _speculativeValue(self, genre, campaign_goal, curr_campaign_funds):
+        # TODO: make sure consumer is aware of this producer/incorporate an awareness value in this calculation
         percentageDone = curr_campaign_funds/campaign_goal
         genrePrefrence = self.prefs[genre]
 
         return ((percentageDone+1)/self.risk_tolerance)*genrePrefrence
 
-    # Nice wrapper for other speculativeValue()
+    # Nice wrapper for _speculativeValue()
     def speculativeValue(self, producer):
         val = self._speculativeValue(producer.genre, producer.campaign_goal, producer.curr_funds)
         return val

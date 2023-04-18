@@ -9,6 +9,7 @@ class Simulation:
         self.visualizer = Visualizer(self.connectionGraph.consumers, self.connectionGraph.producers)
         
     def runTimeStep(self):
+        # TODO: save data for each timestep
         self.consumerBuy()
         self.producerAdvertise()
         self.consumerUpdate()
@@ -34,6 +35,7 @@ class Simulation:
                             self.connectionGraph.update_edge_weight(producer, n, newWeight)
                 
     #producer advertise needs to affect awarenss and prefrence
+
     def producerAdvertise(self):
         for producer in self.connectionGraph.producers:
             amount = producer.advertise()
@@ -49,5 +51,3 @@ class Simulation:
         else:
             self.totalSteps+=1
             return False
-        
-        

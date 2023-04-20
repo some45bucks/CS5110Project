@@ -10,7 +10,7 @@ class Producer:
         self.curr_funds = funds
         self.campaign_goal = goal
         self.genre = genre
-        self.contributors = []
+        self.contributors = dict()
         
     #some sort of market measure
     #update on advertise
@@ -23,10 +23,17 @@ class Producer:
         self.total_ad_spending += spendAmount
         return spendAmount
     
-    
-    def addContribution(self,contrib):
-        # TODO: add awareness of the contributing consumer maybe?
-        self.curr_funds += contrib
-    
+    def addContribution(self, contributor, contribution):
+        if not self.contributors.keys().__contains__(contributor):
+            self.contributors[contributor] = 0
+        # Add to this contributor's total contribution
+        self.contributors[contributor] += contribution
+        self.curr_funds += contribution
+
+    def getContributions(self, contributor):
+        if not self.contributors.__contains__(contributor):
+            return 0
+        return self.contributors[contributor]
+
     def getId(self):
         return f"Producer_{self.id}"

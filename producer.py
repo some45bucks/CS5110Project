@@ -9,7 +9,7 @@ class Producer:
         self.total_ad_spending = 0
         self.campaign_goal = goal
         self.genre = genre
-        self.contributors = []
+        self.contributors = dict()
         self.strategy = strategy
         self.spendPrecentage = spendPrecentage
 
@@ -38,12 +38,20 @@ class Producer:
         for consumer in graph.consumers:
             weight = 0 # connection to influencer
             currentPref = consumer.prefs[self.genre]
-            # then calulation with math.log(amount)
+            # then calulation with math.log(amount)        
+
     
-    def addContribution(self,contrib):
-        self.curr_funds += contrib
-    
+    def addContribution(self, contributor, contribution):
+        if not self.contributors.keys().__contains__(contributor):
+            self.contributors[contributor] = 0
+        # Add to this contributor's total contribution
+        self.contributors[contributor] += contribution
+        self.curr_funds += contribution
+
+    def getContributions(self, contributor):
+        if not self.contributors.__contains__(contributor):
+            return 0
+        return self.contributors[contributor]
+
     def getId(self):
         return f"Producer_{self.id}"
-        
-        

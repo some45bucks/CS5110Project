@@ -9,6 +9,7 @@ class Simulation:
         self.visualizer = Visualizer(self.connectionGraph.consumers, self.connectionGraph.producers)
         
     def runTimeStep(self):
+        # TODO: save data for each timestep
         self.consumerBuy()
         self.producerAdvertise()
         self.consumerUpdate()
@@ -43,5 +44,3 @@ class Simulation:
         else:
             self.totalSteps+=1
             return False
-        
-        

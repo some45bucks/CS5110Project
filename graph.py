@@ -15,7 +15,7 @@ class Graph:
 
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(i,random.uniform(0,1)*100,random.uniform(0,1)*1000,genre.random_genre())
+            newProducer = Producer(i,random.uniform(0,1)*100,genre.random_genre(),random.uniform(0,1),random.uniform(0,1))
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             

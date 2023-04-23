@@ -16,6 +16,6 @@ def get_random_genre_preferences():
     preferences = {}
     
     for g in Genre:
-        preferences[g] =  random.uniform(0,1)
+        preferences[g] =  random.uniform(-1,1)
         
     return preferences

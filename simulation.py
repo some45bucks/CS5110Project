@@ -1,5 +1,6 @@
 from dataVisualize import Visualizer 
 import math
+import random
 
 class Simulation:
     def __init__(self, connectionGraph,steps):
@@ -35,7 +36,15 @@ class Simulation:
                 
     def producerAdvertise(self):
         for producer in self.connectionGraph.producers:
-            producer.advertise(self.connectionGraph)
+            # Get market analysis value
+            trueSentiment = 0
+            totalConsumers = 0
+            for consumer in self.connectionGraph.consumers:
+                totalConsumers += 1
+                trueSentiment += consumer.prefs[producer.genre]
+            trueSentiment = trueSentiment / totalConsumers
+            estimatedAnalysis = random.uniform(trueSentiment-(trueSentiment*1.5), trueSentiment+(trueSentiment*1.5))
+            producer.advertise(self.connectionGraph, estimatedAnalysis)
        
     def upKeep(self):
         if self.steps < self.totalSteps:

@@ -13,7 +13,7 @@ class Producer:
         self.strategy = strategy
         self.spendPrecentage = spendPrecentage
 
-    def advertise(self,graph):
+    def advertise(self, graph, marketAnalysis):
         if self.campaign_goal <= self.curr_funds:
             spendAmount = 0
         else:
@@ -26,7 +26,7 @@ class Producer:
         else:
             self.stratB(spendAmount,graph)
     
-    def stratA(self,amount,graph):
+    def stratA(self, amount, graph):
         for consumer in graph.consumers:
             weight = graph.get_edge_weight(consumer,self)
             currentPref = consumer.prefs[self.genre]

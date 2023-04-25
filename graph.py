@@ -15,13 +15,13 @@ class Graph:
 
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(i,random.uniform(0,1)*100,genre.random_genre(),random.uniform(0,1),random.uniform(0,1))
+            newProducer = Producer(i,0,genre.random_genre(),random.uniform(0,1),random.uniform(0,1))
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
         # Add consumer nodes
         for i in range(num_consumers):
-            newConsumer = Consumer(i,random.uniform(0,1)*100,genre.get_random_genre_preferences(),random.uniform(0,1))
+            newConsumer = Consumer(i, 0,genre.get_random_genre_preferences(),random.uniform(0,1))
             self.graph.add_node(newConsumer)
             self.consumers.append(newConsumer)
             

@@ -53,3 +53,13 @@ class Simulation:
         else:
             self.totalSteps+=1
             return False
+        
+    def addConFunds(self, maxConsumerFunds):
+        for consumer in self.connectionGraph.consumers:
+            consumer.curr_funds = random.uniform(.5, 1) * maxConsumerFunds
+
+
+    def addProGoals(self, maxProducerGoal):
+            for producer in self.connectionGraph.producers:
+                producer.curr_funds = random.uniform(.5, 1) * maxProducerGoal
+

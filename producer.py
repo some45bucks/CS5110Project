@@ -36,9 +36,12 @@ class Producer:
     
     def stratB(self,amount,graph):
         for consumer in graph.consumers:
-            weight = 0 # connection to influencer
+            scaler = .7 # formula constants
             currentPref = consumer.prefs[self.genre]
-            # then calulation with math.log(amount)        
+            # then calulation with math.log(amount)  
+            if currentPref > .5:
+                effectivness = (currentPref * math.log(amount))   
+                # Some function that approaches 1 using effectivness
 
     
     def addContribution(self, contributor, contribution):

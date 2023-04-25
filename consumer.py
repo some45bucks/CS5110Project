@@ -36,6 +36,8 @@ class Consumer:
 
     def buy(self, producer):
         contrib = self.speculativeValue(producer)
+        if contrib <= 0:
+            return  # Don't buy if not a positive value
         if (self.speculativeValue(producer) - producer.getContributions(self))/100 > .6:
             # If we have already contributed, only contribute again if the speculative value is
             # significantly greater (>60%) than the total previous contributions

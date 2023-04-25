@@ -15,7 +15,7 @@ class Graph:
 
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(i,random.uniform(0,1),genre.random_genre(),random.uniform(0,1),random.uniform(0,.1))
+            newProducer = Producer(i,random.uniform(0,1),genre.random_genre(),random.uniform(0,1),random.uniform(0,.2))
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
@@ -36,7 +36,7 @@ class Graph:
         for i in range(num_consumers):
             for j in range(i+1, num_consumers):
                 if random.random() < connectivity_prob:
-                    weight = random.uniform(0,1)
+                    weight = 1
                 else:
                     weight = 0
                 self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)

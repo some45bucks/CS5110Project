@@ -11,15 +11,18 @@ class Producer:
         self.genre = genre
         self.contributors = dict()
         self.strategy = strategy
+        self.advertiseBudget = self.campaign_goal * spendPrecentage
         self.spendPrecentage = spendPrecentage
 
     def advertise(self, graph, marketAnalysis):
         if self.campaign_goal <= self.curr_funds:
             spendAmount = 0
         else:
-            spendAmount = self.curr_funds/self.campaign_goal * self.spendPrecentage
+            spendAmount = self.advertiseBudget * marketAnalysis
         
-        self.total_ad_spending += spendAmount 
+        self.total_ad_spending += spendAmount
+        self.advertiseBudget -= spendAmount
+         
         if spendAmount > 0:
             if random.uniform(0,1) > self.strategy:
                 self.stratA(spendAmount,graph)
@@ -31,18 +34,17 @@ class Producer:
             weight = graph.get_edge_weight(consumer,self)
             currentPref = consumer.prefs[self.genre]
             # needs more fine tuning
-            newWeight = max(0,min(math.log(amount)*currentPref*weight,1))
+            newWeight = min(math.tanh(math.log(amount)*currentPref*weight),0)
             graph.update_edge_weight(consumer,self,newWeight)
     
     def stratB(self,amount,graph):
         for consumer in graph.consumers:
-            scaler = .7 # formula constants
             currentPref = consumer.prefs[self.genre]
             # then calulation with math.log(amount)  
             if currentPref > .5:
-                print(amount)
-                effectivness = (currentPref * math.log(amount))   
+                effectivness = math.tanh(math.log(amount)*currentPref)  
                 # Some function that approaches 1 using effectivness
+                consumer.modifyPreference(self.genre, effectivness)
 
     
     def addContribution(self, contributor, contribution):

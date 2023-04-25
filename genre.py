@@ -9,6 +9,7 @@ class Genre(Enum):
     PUZZLE = 4
     OTHER = 5
 
+
 def random_genre():
         return random.choice(list(Genre))
     

@@ -1,4 +1,5 @@
 from dataVisualize import Visualizer 
+from genre import Genre
 import math
 import random
 
@@ -25,14 +26,19 @@ class Simulation:
                     consumer.buy(producer)
          
     def consumerUpdate(self):
-        for producer in self.connectionGraph.producers:
-                for consumer in self.connectionGraph.consumers:
-                    producerConsumerWeight = self.connectionGraph.get_edge_weight(producer,consumer)
-                    if producerConsumerWeight > 0:
-                        for n in consumer.neighbors:
-                            currentPref = n.prefs[producer.genre]
-                            newWeight = currentPref*producerConsumerWeight*self.connectionGraph.get_edge_weight(n,consumer)
-                            self.connectionGraph.update_edge_weight(producer, n, newWeight)
+        for consumer in self.connectionGraph.consumers:
+            neighborAverage = [0 for _ in range(len(Genre))]
+            for n in consumer.neighbors:
+                for i in Genre:
+                    neighborAverage[i.value] += n.prefs[i]
+                    
+            for i in range(len(Genre)):
+                neighborAverage[i] /= len(consumer.neighbors)
+                
+            for i in Genre:
+                    n.prefs[i] += .03*(neighborAverage[i.value]/2)
+                    n.prefs[i] = max(0,min(1,n.prefs[i]))
+                
                 
     def producerAdvertise(self):
         for producer in self.connectionGraph.producers:

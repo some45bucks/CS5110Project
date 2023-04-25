@@ -20,11 +20,11 @@ class Producer:
             spendAmount = self.curr_funds/self.campaign_goal * self.spendPrecentage
         
         self.total_ad_spending += spendAmount 
-        
-        if random.uniform(0,1) > self.strategy and spendAmount > 0:
-            self.stratA(spendAmount,graph)
-        else:
-            self.stratB(spendAmount,graph)
+        if spendAmount > 0:
+            if random.uniform(0,1) > self.strategy:
+                self.stratA(spendAmount,graph)
+            else:
+                self.stratB(spendAmount,graph)
     
     def stratA(self, amount, graph):
         for consumer in graph.consumers:
@@ -40,6 +40,7 @@ class Producer:
             currentPref = consumer.prefs[self.genre]
             # then calulation with math.log(amount)  
             if currentPref > .5:
+                print(amount)
                 effectivness = (currentPref * math.log(amount))   
                 # Some function that approaches 1 using effectivness
 

@@ -41,7 +41,7 @@ class Consumer:
             # significantly greater (>60%) than the total previous contributions
             if contrib <= self.curr_funds:
                 # Ensure we have enough funds to contribute fully
-                producer.addContribution(self.speculativeValue(producer) - producer.getContributions(self))
+                producer.addContribution(self,self.speculativeValue(producer) - producer.getContributions(self))
                 self.curr_funds -= self.speculativeValue(producer) - producer.getContributions(self)
         
     def getId(self):

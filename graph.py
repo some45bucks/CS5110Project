@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+import copy
 from consumer import Consumer
 from producer import Producer
 import genre
@@ -15,7 +16,7 @@ class Graph:
 
         # Add producer nodes
         for i in range(num_producers):
-            newProducer = Producer(i,random.uniform(0,1),genre.random_genre(),random.uniform(0,1),random.uniform(0,.2))
+            newProducer = Producer(i,0,genre.random_genre(),random.uniform(0,1))
             self.graph.add_node(newProducer)
             self.producers.append(newProducer)
             
@@ -30,18 +31,19 @@ class Graph:
             for producer in range(num_producers):
                 weight = random.uniform(0,1)
                 self.graph.add_edge(f"Consumer_{consumer}", f"Producer_{producer}", weight=weight)
-                self.consumers[consumer].producers[self.producers[producer]] = weight
+                self.consumers[consumer].producers[self.producers[producer].id] = weight
                      
         # Connect consumers to other consumers with a probability of connectivity_prob with a weight of 0
         for i in range(num_consumers):
             for j in range(i+1, num_consumers):
                 if random.random() < connectivity_prob:
                     weight = 1
+                    self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
+                    self.consumers[i].neighbors[self.consumers[j].id] = weight
+                    self.consumers[j].neighbors[self.consumers[i].id] = weight
                 else:
                     weight = 0
-                self.graph.add_edge(f"Consumer_{i}", f"Consumer_{j}", weight=weight)
-                self.consumers[i].neighbors[self.consumers[j]] = weight
-                self.consumers[j].neighbors[self.consumers[i]] = weight
+                
 
         
                     
@@ -69,8 +71,3 @@ class Graph:
                 print(f"{edge[0]} -- {edge[1]}")
             else:
                 print(f"{edge[0]} -- {edge[1]} : {weight}")
-
-    def consumerAwareness(self,consumer):
-        awareness = []
-
-        return awareness

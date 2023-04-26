@@ -1,5 +1,4 @@
-import random
-
+import copy
 
 class Consumer:
     curr_funds = 0
@@ -16,7 +15,6 @@ class Consumer:
         self.risk_tolerance = risk_tolerance
         self.neighbors = {}
         self.producers = {}
-        #self.true = true_prefs
 
     def _speculativeValue(self, genre, campaign_goal, curr_campaign_funds, awareness):
         percentageDone = curr_campaign_funds/campaign_goal
@@ -26,9 +24,9 @@ class Consumer:
 
     # Nice wrapper for _speculativeValue()
     def speculativeValue(self, producer):
-        if producer not in self.producers:
+        if producer.id not in self.producers:
             return 0  # No value for projects this consumer is unaware of
-        val = self._speculativeValue(producer.genre, producer.campaign_goal, producer.curr_funds, self.producers[producer])
+        val = self._speculativeValue(producer.genre, producer.campaign_goal, producer.curr_funds, self.producers[producer.id])
         return val
 
     def modifyPreference(self, genre, modifier):
@@ -36,15 +34,16 @@ class Consumer:
 
     def buy(self, producer):
         contrib = self.speculativeValue(producer)
+        contribSoFar = producer.getContributions(self)
         if contrib <= 0:
             return  # Don't buy if not a positive value
-        if (self.speculativeValue(producer) - producer.getContributions(self))/100 > .6:
-            # If we have already contributed, only contribute again if the speculative value is
-            # significantly greater (>60%) than the total previous contributions
-            if contrib <= self.curr_funds:
+        
+        diff = contrib - contribSoFar
+        if diff > 0:
+            if diff <= self.curr_funds:
                 # Ensure we have enough funds to contribute fully
-                producer.addContribution(self,self.speculativeValue(producer) - producer.getContributions(self))
-                self.curr_funds -= self.speculativeValue(producer) - producer.getContributions(self)
+                producer.addContribution(self,diff)
+                self.curr_funds -= diff
         
     def getId(self):
         return f"Consumer_{self.id}"

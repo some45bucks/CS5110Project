@@ -1,21 +1,20 @@
 from dataVisualize import Visualizer 
 from genre import Genre
-import math
 import random
+import numpy as np
 
 class Simulation:
     def __init__(self, connectionGraph,steps):
         self.steps = steps
         self.connectionGraph = connectionGraph
         self.totalSteps = 0
-        self.visualizer = Visualizer(self.connectionGraph.consumers, self.connectionGraph.producers)
+        self.visualizer = Visualizer(self.connectionGraph.consumers,self.connectionGraph.producers)
+        self.marketTrack = []
         
     def runTimeStep(self):
-        # TODO: save data for each timestep
         self.consumerBuy()
         self.producerAdvertise()
         self.consumerUpdate()
-        self.visualizer.update(self.connectionGraph.consumers, self.connectionGraph.producers)
         return self.upKeep()
     
     def consumerBuy(self):
@@ -30,30 +29,30 @@ class Simulation:
             neighborAverage = [0 for _ in range(len(Genre))]
             for n in consumer.neighbors:
                 for i in Genre:
-                    neighborAverage[i.value] += n.prefs[i]
-                    
-            for i in range(len(Genre)):
-                neighborAverage[i] /= len(consumer.neighbors)
-                
+                    neighborAverage[i.value] += self.connectionGraph.consumers[n].prefs[i]/len(consumer.neighbors)
+
             for i in Genre:
-                    n.prefs[i] += .03*(neighborAverage[i.value]/2)
-                    n.prefs[i] = max(0,min(1,n.prefs[i]))
+                consumer.prefs[i] += .1*(neighborAverage[i.value])
+                consumer.prefs[i] = max(-1,min(1,consumer.prefs[i]))
                 
                 
     def producerAdvertise(self):
-        for producer in self.connectionGraph.producers:
-            # Get market analysis value
-            trueSentiment = 0
-            totalConsumers = 0
+        trueSentiment = [0 for i in range(len(Genre))]
+        
+        for g in Genre:
             for consumer in self.connectionGraph.consumers:
-                totalConsumers += 1
-                trueSentiment += consumer.prefs[producer.genre]
-            trueSentiment = trueSentiment / totalConsumers
-            estimatedAnalysis = random.uniform(trueSentiment-(trueSentiment*1.5), trueSentiment+(trueSentiment*1.5))
-            producer.advertise(self.connectionGraph, estimatedAnalysis)
+                trueSentiment[g.value] += consumer.prefs[g]
+            trueSentiment[g.value] /= len(self.connectionGraph.consumers)
+        
+        self.marketTrack = trueSentiment
+        
+        for producer in self.connectionGraph.producers:
+            producer.advertise(self.connectionGraph, trueSentiment[producer.genre.value])
        
     def upKeep(self):
-        if self.steps < self.totalSteps:
+        self.visualizer.update(self.connectionGraph.consumers,self.connectionGraph.producers,self.marketTrack)
+        
+        if self.steps <= self.totalSteps:
             self.visualizer.visualize()
             return True
         else:
@@ -67,5 +66,6 @@ class Simulation:
 
     def addProGoals(self, maxProducerGoal):
             for producer in self.connectionGraph.producers:
-                producer.curr_funds = random.uniform(.5, 1) * maxProducerGoal
+                producer.campaign_goal = random.uniform(.5, 1) * maxProducerGoal
+                producer.advertiseBudget = producer.campaign_goal * random.uniform(0.01,0.2)
 

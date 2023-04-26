@@ -1,29 +1,32 @@
 import random
 import math
+import numpy as np
+import copy
 
 class Producer:
    
-    def __init__(self, id, goal, genre, strategy,spendPrecentage):
+    def __init__(self, id, goal, genre, strategy):
         self.id = id
         self.curr_funds = 0
         self.total_ad_spending = 0
         self.campaign_goal = goal
         self.genre = genre
-        self.contributors = dict()
+        self.contributors = {}
         self.strategy = strategy
-        self.advertiseBudget = self.campaign_goal * spendPrecentage
-        self.spendPrecentage = spendPrecentage
+        self.averageMarketPrefrence = [.55]
 
     def advertise(self, graph, marketAnalysis):
+        self.averageMarketPrefrence.append(math.tanh(np.random.normal(marketAnalysis,3)))
+        
         if self.campaign_goal <= self.curr_funds:
             spendAmount = 0
         else:
-            spendAmount = self.advertiseBudget * marketAnalysis
-        
-        self.total_ad_spending += spendAmount
-        self.advertiseBudget -= spendAmount
+            spendAmount = self.advertiseBudget * self.getMarketAverage()
          
-        if spendAmount > 0:
+        if spendAmount > 1:
+            self.total_ad_spending += spendAmount
+            self.advertiseBudget -= spendAmount
+            
             if random.uniform(0,1) > self.strategy:
                 self.stratA(spendAmount,graph)
             else:
@@ -34,30 +37,33 @@ class Producer:
             weight = graph.get_edge_weight(consumer,self)
             currentPref = consumer.prefs[self.genre]
             # needs more fine tuning
-            newWeight = min(math.tanh(math.log(amount)*currentPref*weight),0)
+            newWeight = max(math.tanh(math.log(amount)*(currentPref+1)*weight),0)
             graph.update_edge_weight(consumer,self,newWeight)
     
     def stratB(self,amount,graph):
         for consumer in graph.consumers:
             currentPref = consumer.prefs[self.genre]
             # then calulation with math.log(amount)  
-            if currentPref > .5:
-                effectivness = math.tanh(math.log(amount)*currentPref)  
-                # Some function that approaches 1 using effectivness
-                consumer.modifyPreference(self.genre, effectivness)
+
+            effectivness = math.tanh(math.log(amount)*(currentPref))
+            # Some function that approaches 1 using effectivness
+            consumer.modifyPreference(self.genre, effectivness)
 
     
     def addContribution(self, contributor, contribution):
-        if not self.contributors.keys().__contains__(contributor):
-            self.contributors[contributor] = 0
+        if not contributor.id in self.contributors.keys():
+            self.contributors[contributor.id] = 0
         # Add to this contributor's total contribution
-        self.contributors[contributor] += contribution
+        self.contributors[contributor.id] += contribution
         self.curr_funds += contribution
 
     def getContributions(self, contributor):
-        if not self.contributors.__contains__(contributor):
+        if not self.contributors.__contains__(contributor.id):
             return 0
-        return self.contributors[contributor]
+        return self.contributors[contributor.id]
 
     def getId(self):
         return f"Producer_{self.id}"
+    
+    def getMarketAverage(self):
+        return np.average(self.averageMarketPrefrence)

@@ -13,7 +13,7 @@ if __name__ == "__main__":
     graph = Graph(args.n, args.m, args.p)
 
     simulation = Simulation(graph,int(args.s))
-    simulation.addProGoals(1000)
+    simulation.addProGoals(200)
     simulation.addConFunds(100)
 
     done = False

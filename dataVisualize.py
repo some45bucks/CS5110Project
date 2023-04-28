@@ -112,6 +112,7 @@ class Visualizer:
         plt.plot(totp/len(self.marketPrefs.items()),color='grey')
         plt.title('Average Consumer Prefrences Over Time')
         plt.xlabel('Time')
+        plt.ylim(-1, 1)
         plt.ylabel('Prefrence')
         
         plt.figure()

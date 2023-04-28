@@ -11,7 +11,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', type=str, default='30', help='number of steps')
     args = parser.parse_args()
     
-    tests = 500
+    tests = 1
     
     for i in range(tests):
         graph = Graph(args.n, args.m, args.p)

@@ -75,34 +75,34 @@ class Visualizer:
             plt.figure()
             for genre_id, data in self.marketPrefs.items():
                 plt.plot(data/self.tests,label=f"{genre_id.name}",color=self.colorMap[genre_id.value])
-            plt.title = 'Consumer Prefrences Over Time'
-            plt.xlabel = 'Time'
-            plt.ylabel = 'Prefrence'
+            plt.title('Consumer Prefrences Over Time')
+            plt.xlabel('Time')
+            plt.ylabel('Prefrence')
             plt.legend()
             
             plt.figure()
             for producer_id, data in self.producer_data.items():
                 plt.plot(data['current_funds'],color=self.colorMap[data['g'].value])
-            plt.title = 'Producer Money Over Time'
-            plt.xlabel = 'Time'
-            plt.ylabel = 'Money'
+            plt.title('Producer Money Over Time')
+            plt.xlabel('Time')
+            plt.ylabel('Money')
             
             plt.figure()
             for producer_id, data in self.producer_data.items():
                 plt.plot(data['current_funds'],color=self.colorMap[data['reached']])
                 if data['reached']:
                     plt.plot(data['goal'], color = 'blue', linestyle='dashed')
-            plt.title = 'Producer Goal Reaching'
-            plt.xlabel = 'Time'
-            plt.ylabel = 'Money'
+            plt.title('Producer Goal Reaching')
+            plt.xlabel('Time')
+            plt.ylabel('Money')
             plt.legend([Line2D([0], [0], color='red',),Line2D([0], [0], color='green',),Line2D([0], [0], color='blue',linestyle='dashed')], ['Failed','Completed','Goal'])
                 
             plt.figure()
             for producer_id, data in self.producer_data.items():
                 plt.plot(data['current_funds'],color=(0, 0, data['s']))
-            plt.title = 'Producer Strategy'
-            plt.xlabel = 'Time'
-            plt.ylabel = 'Money'
+            plt.title('Producer Strategy')
+            plt.xlabel('Time')
+            plt.ylabel('Money')
             plt.legend([Line2D([0], [0], color='black'),Line2D([0], [0], color='blue')], ['Strategy A','Strategy B'])
 
         plt.figure()
@@ -110,18 +110,18 @@ class Visualizer:
         for genre_id, data in self.marketPrefs.items():
             totp += data/self.tests
         plt.plot(totp/len(self.marketPrefs.items()),color='grey')
-        plt.title = 'Average Consumer Prefrences Over Time'
-        plt.xlabel = 'Time'
-        plt.ylabel = 'Prefrence'
+        plt.title('Average Consumer Prefrences Over Time')
+        plt.xlabel('Time')
+        plt.ylabel('Prefrence')
         
         plt.figure()
         tot = np.zeros(self.steps)
         for producer_id, data in self.producer_data.items():
             tot += data['current_funds']/self.tests
         plt.plot(tot/len(self.producer_data.items()),color='grey')
-        plt.title = 'Average Producer Over Time'
-        plt.xlabel = 'Time'
-        plt.ylabel = 'Money'
+        plt.title('Average Producer Over Time')
+        plt.xlabel('Time')
+        plt.ylabel('Money')
 
         print("Goal Completing Producers")
         print(f" Percentage Completed Goal: {(self.averageCompleted/self.testsCompleted)/len(self.producer_data.items())}")

@@ -14,12 +14,15 @@ class Producer:
         self.contributors = {}
         self.strategy = strategy
         self.averageMarketPrefrence = [.55]
+        self.goalComplete = -1
 
-    def advertise(self, graph, marketAnalysis):
+    def advertise(self, graph, marketAnalysis,step):
         self.averageMarketPrefrence.append(math.tanh(np.random.normal(marketAnalysis,3)))
         
         if self.campaign_goal <= self.curr_funds:
             spendAmount = 0
+            if self.goalComplete == -1:
+                self.goalComplete = step
         else:
             spendAmount = self.advertiseBudget * self.getMarketAverage()
          

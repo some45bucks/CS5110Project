@@ -1,4 +1,3 @@
-from dataVisualize import Visualizer 
 from genre import Genre
 import random
 import numpy as np
@@ -8,7 +7,6 @@ class Simulation:
         self.steps = steps
         self.connectionGraph = connectionGraph
         self.totalSteps = 0
-        self.visualizer = Visualizer(self.connectionGraph.consumers,self.connectionGraph.producers)
         self.marketTrack = []
         
     def runTimeStep(self):
@@ -47,17 +45,15 @@ class Simulation:
         self.marketTrack = trueSentiment
         
         for producer in self.connectionGraph.producers:
-            producer.advertise(self.connectionGraph, trueSentiment[producer.genre.value])
+            producer.advertise(self.connectionGraph, trueSentiment[producer.genre.value],self.totalSteps)
        
     def upKeep(self):
-        self.visualizer.update(self.connectionGraph.consumers,self.connectionGraph.producers,self.marketTrack)
-        
+        self.totalSteps+=1
         if self.steps <= self.totalSteps:
-            self.visualizer.visualize()
-            return True
+            return True,self.connectionGraph.producers,self.marketTrack,(self.totalSteps-1)
         else:
-            self.totalSteps+=1
-            return False
+            
+            return False,self.connectionGraph.producers,self.marketTrack,(self.totalSteps-1)
         
     def addConFunds(self, maxConsumerFunds):
         for consumer in self.connectionGraph.consumers:

@@ -11,6 +11,7 @@ class Consumer:
     def __init__(self, id, funds, preferences, risk_tolerance):
         self.id = id
         self.curr_funds = funds
+        self.spent = 0
         self.prefs = preferences
         self.risk_tolerance = risk_tolerance
         self.neighbors = {}
@@ -44,6 +45,7 @@ class Consumer:
                 # Ensure we have enough funds to contribute fully
                 producer.addContribution(self,diff)
                 self.curr_funds -= diff
+                self.spent += diff
         
     def getId(self):
         return f"Consumer_{self.id}"

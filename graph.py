@@ -22,7 +22,7 @@ class Graph:
             
         # Add consumer nodes
         for i in range(num_consumers):
-            newConsumer = Consumer(i, 0,genre.get_random_genre_preferences(),random.uniform(0,1))
+            newConsumer = Consumer(i, 0,genre.get_random_genre_preferences(),random.uniform(.1,1))
             self.graph.add_node(newConsumer)
             self.consumers.append(newConsumer)
             

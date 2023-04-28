@@ -1,6 +1,5 @@
 from genre import Genre
 import random
-import numpy as np
 
 class Simulation:
     def __init__(self, connectionGraph,steps):

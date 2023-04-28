@@ -1,6 +1,5 @@
 import networkx as nx
 import random
-import copy
 from consumer import Consumer
 from producer import Producer
 import genre
